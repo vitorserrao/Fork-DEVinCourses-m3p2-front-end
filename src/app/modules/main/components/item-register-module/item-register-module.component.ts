@@ -16,7 +16,7 @@ export class ItemRegisterModuleComponent implements OnInit {
       descriptionModule: ['', [Validators.required]],
       link: [
         '',
-        // Validators.required,
+
         Validators.pattern('^(https?://)?(www.youtube.com|youtu.be)/.+$'),
       ],
     });
@@ -35,7 +35,6 @@ export class ItemRegisterModuleComponent implements OnInit {
   onChange(event: any) {
     console.log(event);
     const selectedFiles = <FileList>event.srcElement.files;
-    //document.getElementById('customFileLabel').innerHTML =
     selectedFiles[0].name;
   }
 }
