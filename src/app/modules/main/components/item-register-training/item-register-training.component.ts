@@ -8,13 +8,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./item-register-training.component.scss'],
 })
 export class ItemRegisterTrainingComponent implements OnInit {
-
   formTraining: FormGroup = new FormGroup({});
-  //constructor(private http: HttpClient){};
+
   constructor(private formBuilder: FormBuilder, http: HttpClient) {
     this.formTraining = formBuilder.group({
-      //date:new Date(),
-      //modules:['']
       title: ['', [Validators.required]],
       teatcher: ['', [Validators.required]],
       duration: ['', [Validators.required, Validators.min(8)]],
