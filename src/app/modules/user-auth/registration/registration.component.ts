@@ -179,8 +179,9 @@ export class RegistrationComponent implements OnInit {
   }
 
   onChange($event: any) {
+    console.log($event.target.files[0].size);
     if ($event.target.files[0].size >= 10240000) {
-      window.alert('tamanho não é permitido');
+      window.alert('Tamanho do arquivo permitido 10Mb');
       $event.target.value = null;
     } else {
       const file = $event.target.files[0];

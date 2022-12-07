@@ -15,7 +15,6 @@ export class AlertService {
       confirmButtonText: 'Sim',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.trainingService.deleteById(id);
         Swal.fire('Excluido!', '', 'success');

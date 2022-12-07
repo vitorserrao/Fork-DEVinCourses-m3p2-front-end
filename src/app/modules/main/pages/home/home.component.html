@@ -7,57 +7,6 @@
           <div class="title">
             <h5 class="text-center" id="TitleModal">Acessar Treinamento</h5>
           </div>
-          <div class="modal-body text-center">
-            <div class="container">
-              <div class="row g-3" id="centralizar">
-                <div class="col-sm-12">
-                  <h4 id="segundoTitulo">Total de Alunos</h4>
-                </div>
-              </div>
-
-              <div class="row g-3" id="centralizar">
-                <div class="col-sm-4">
-                  <div id="colordefundo">
-                    <p id="formatacao">Cadastrados</p>
-                    <p id="formatacao">{{ registredUsers }}</p>
-                  </div>
-                </div>
-
-                <div class="col-sm-4">
-                  <div id="colordefundo">
-                    <p id="formatacao">Em curso</p>
-                    <p id="formatacao">{{ progressUsers }}</p>
-                  </div>
-                </div>
-
-                <div class="col-sm-4">
-                  <div id="colordefundo">
-                    <p id="formatacao">Concluintes</p>
-                    <p id="formatacao">{{ finishedUsers }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!--Botões Suspender e Fechar-->
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary"
-              id="suspend"
-              (click)="suspendShow()"
-            >
-              Suspender
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Fechar
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -134,7 +83,7 @@
           <div class="col">
             <div class="text-center" id="colordefundo">
               <p id="formatacao">Cadastrados</p>
-              <p id="formatacao">{{ registredUsers }}</p>
+              <p id="formatacao">{{ cardSize }}</p>
             </div>
           </div>
 
@@ -155,7 +104,16 @@
       </div>
     </div>
   </div>
+
   <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      id="suspend"
+      (click)="suspendShow()"
+    >
+      Suspender
+    </button>
     <button
       type="button"
       class="btn btn-success"
