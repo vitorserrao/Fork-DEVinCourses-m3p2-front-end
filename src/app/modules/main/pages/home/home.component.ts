@@ -19,22 +19,20 @@ declare var window: any;
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-
 export class HomeComponent implements OnInit {
-  
-  registration:IRegistration= {
-    id:0,
+  registration: IRegistration = {
+    id: 0,
     userId: 0,
-    trainingId:0,
-    status:0
+    trainingId: 0,
+    status: 0,
   };
-  userActive!:IUser;
+  userActive!: IUser;
 
-  trainings:ITraining[] = [];
+  trainings: ITraining[] = [];
 
-  trainingModel!:ITraining;
+  trainingModel!: ITraining;
 
-  category:string = 'todos';
+  category: string = 'todos';
   filters: ITraining[] = [];
 
   page = 1;
@@ -51,7 +49,7 @@ export class HomeComponent implements OnInit {
     ProgressUsers: [],
     NProgressUsers: 0,
     FinishedUsers: [],
-    NFinishedUsers : 0
+    NFinishedUsers: 0,
   };
 
   registredUsers: number = 0;
@@ -59,17 +57,18 @@ export class HomeComponent implements OnInit {
   finishedUsers: number = 0;
 
   constructor(
-    private config: NgbModalConfig, 
+    private config: NgbModalConfig,
     private modalService: NgbModal,
-    private trainingService:TrainingService,
-    private alertService:AlertService,
-    private serviceTitle:Title) {
+    private trainingService: TrainingService,
+    private alertService: AlertService,
+    private serviceTitle: Title
+  ) {
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
     config.keyboard = false;
   }
 
-  openXl(content: any, training:ITraining) {
+  openXl(content: any, training: ITraining) {
     this.trainingModel = training;
     this.modalService.open(content, {
       size: 'lg',
@@ -78,100 +77,115 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
   ngOnInit(): void {
     this.serviceTitle.setTitle('NDD Training - Home');
     this.getUser();
-    this.getTotalRegisters()
-    this. RecebeDetalhes();
+    this.getTotalRegisters();
+    this.RecebeDetalhes();
   }
 
-  getUser(){
-    this.trainingService.getUserByToken(this.trainingService.token)
-    .subscribe((user:IUser) => {
-      this.userActive = user;
-      this.registration.userId = this.userActive.id;      
-    })
+  getUser() {
+    this.trainingService
+      .getUserByToken(this.trainingService.token)
+      .subscribe((user: IUser) => {
+        this.userActive = user;
+        this.registration.userId = this.userActive.id;
+      });
   }
 
-  getTrainings(){
-    this.trainingService.getAllTrainings()
-      .subscribe((trainings:ITraining[]) => {
+  getTrainings() {
+    this.trainingService
+      .getAllTrainings()
+      .subscribe((trainings: ITraining[]) => {
         this.trainings = trainings;
         this.filtrar();
-      })
+      });
   }
 
-   filtrar(){
-    if(this.category == 'todos'){
+  filtrar() {
+    if (this.category == 'todos') {
       this.filters = this.trainings;
       this.cardSize = this.filters.length;
-      
-    }else{
-      this.trainingService.getByCategory(this.category)
-      .subscribe((trainings:ITraining[]) => {
-        this.filters = trainings; 
-        this.cardSize = this.filters.length;
-      },
-      (error) => {
-        this.filters = [];
-        this.cardSize = this.filters.length;
-      });
+    } else {
+      this.trainingService.getByCategory(this.category).subscribe(
+        (trainings: ITraining[]) => {
+          this.filters = trainings;
+          this.cardSize = this.filters.length;
+        },
+        (error) => {
+          this.filters = [];
+          this.cardSize = this.filters.length;
+        }
+      );
     }
   }
 
-  isRegistered(idTraining:number):void {
+  isRegistered(idTraining: number): void {
     this.registration.trainingId = idTraining;
 
-    this.trainingService.getTrainingsByUser(this.userActive?.id)
-      .subscribe((training:ITraining[]) => {
-        
-        let myTrainings = training.filter(t => t.id == idTraining)
+    this.trainingService
+      .getTrainingsByUser(this.userActive?.id)
+      .subscribe((training: ITraining[]) => {
+        let myTrainings = training.filter((t) => t.id == idTraining);
 
-        if(myTrainings.length != 0){
-          this.alertService.alertUserIsRegistered()
-        }else{
+        if (myTrainings.length != 0) {
+          this.alertService.alertUserIsRegistered();
+        } else {
           this.registerCourse();
         }
-      })
+      });
   }
 
-  registerCourse(){
-    this.trainingService.postRegistration(this.registration)
-    .subscribe(result => console.log(result));
+  Registered(idTraining: number): void {
+    this.registration.trainingId = idTraining;
+
+    this.trainingService
+      .getTrainingsByUser(this.userActive?.id)
+      .subscribe((training: ITraining[]) => {
+        let myTrainings = training.filter((t) => t.id == idTraining);
+
+        if (myTrainings.length != 0) {
+        } else {
+        }
+      });
+  }
+
+  registerCourse() {
+    this.trainingService
+      .postRegistration(this.registration)
+      .subscribe((result) => console.log(result));
 
     this.alertService.alertRegisterSuccess();
   }
 
-  getTotalRegisters(){
-    this.trainingService.getTotalRegisters()
-    .subscribe((result) => {
+  getTotalRegisters() {
+    this.trainingService.getTotalRegisters().subscribe((result) => {
       this.cardSize = result;
       this.trainingService.totalTrainings = result;
       this.getTrainings();
-    })
+    });
   }
 
-
   //Metodo para interpolação dos dados de Registro de Detalhes no HTML
-  RecebeDetalhes(){
-    this.trainingService.GetDetalhesTraining(this.trainingModel.id).subscribe(t => this.Details = t);
+  RecebeDetalhes() {
+    this.trainingService
+      .GetDetalhesTraining(this.trainingModel.id)
+      .subscribe((t) => (this.Details = t));
     this.registredUsers = this.Details.NRegistredUsers;
     this.progressUsers = this.Details.NProgressUsers;
     this.finishedUsers = this.Details.NFinishedUsers;
   }
 
   //Metodo para abrir Modal Detalhes
-  OpenDetails(){
+  OpenDetails() {
     this.element = document.getElementById('IdModelDetalhes');
-    let modal = new window.bootstrap.Modal(this.element);
-    modal.show();
-  } 
-
-  suspendShow(){
-    this.element = document.getElementById('modalSuspend');
     let modal = new window.bootstrap.Modal(this.element);
     modal.show();
   }
 
+  suspendShow() {
+    this.element = document.getElementById('modalSuspend');
+    let modal = new window.bootstrap.Modal(this.element);
+    modal.show();
+  }
 }
